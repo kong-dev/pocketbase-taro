@@ -19,6 +19,20 @@ yarn add pocketbase-taro
 pnpm add pocketbase-taro
 ```
 
+> For projects that use the [@tarojs/plugin-http](https://github.com/NervJS/taro/tree/main/packages/taro-plugin-http)
+> plugin, you'll need to add the following options:
+> ```diff
+> # config/index.ts
+>
+> plugins: [
+>   ['@tarojs/plugin-http', {
+> +    disabledFormData: false,
+> +    disabledBlob: false,
+>      // other options...
+>   }],
+> ]
+> ```
+
 ## Usage
 
 ```diff
