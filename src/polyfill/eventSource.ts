@@ -16,6 +16,8 @@ class TaroEventSource implements EventSource {
   _withCredentials: boolean
   _readyState: number
 
+  _manualClose = false
+
   get url(): string { return this._url }
 
   get withCredentials(): boolean { return this._withCredentials }
@@ -40,6 +42,7 @@ class TaroEventSource implements EventSource {
       enableChunked: true,
       complete: () => {
         this._readyState = this.CLOSED
+        !this._manualClose && this.connect()
       },
       fail: (e) => {
         this.dispatchEvent(new MessageEvent('', 'error', e))
@@ -81,6 +84,7 @@ class TaroEventSource implements EventSource {
   }
 
   close(): void {
+    this._manualClose = true
     this.task?.abort()
     this.task = null
   }
