@@ -56,7 +56,6 @@ class TaroEventSource implements EventSource {
       this.dispatchEvent(new MessageEvent('', 'open', res))
     })
     task.onChunkReceived(res => {
-      log('EventSource onChunkReceived', res)
       this.handleChunk(res.data)
     })
     this.task = task
@@ -65,6 +64,7 @@ class TaroEventSource implements EventSource {
   private handleChunk(buffer: ArrayBuffer) {
     const uint8Array = new Uint8Array(buffer)
     const data = Base64.decode(Base64.fromUint8Array(uint8Array))
+    log('EventSource onChunkReceived', data)
     this.dispatchEvent(this.parseEvent(data))
   }
 
