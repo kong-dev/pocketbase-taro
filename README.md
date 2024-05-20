@@ -19,6 +19,19 @@ yarn add pocketbase-taro
 pnpm add pocketbase-taro
 ```
 
+> Due to the utilization of ES6 syntax in the PocketBase SDK, the following options need to be added:
+> 
+> ```diff
+> # project.config.json
+> 
+> {
+>   "setting": {
+> +    "es6": true,
+> +    "enhance": true,
+>   },
+> }
+> ```
+
 > For projects that use the [@tarojs/plugin-http](https://github.com/NervJS/taro/tree/main/packages/taro-plugin-http)
 > plugin, you'll need to add the following options:
 > ```diff
