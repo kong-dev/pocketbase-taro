@@ -41,18 +41,22 @@ class TaroEventSource implements EventSource {
       method: 'GET',
       enableChunked: true,
       complete: () => {
+        log('EventSource complete')
         this._readyState = this.CLOSED
         !this._manualClose && this.connect()
       },
       fail: (e) => {
+        log('EventSource fail', e)
         this.dispatchEvent(new MessageEvent('', 'error', e))
       },
     })
     task.onHeadersReceived(res => {
+      log('EventSource onHeadersReceived', res)
       this._readyState = this.OPEN
       this.dispatchEvent(new MessageEvent('', 'open', res))
     })
     task.onChunkReceived(res => {
+      log('EventSource onChunkReceived', res)
       this.handleChunk(res.data)
     })
     this.task = task
@@ -152,6 +156,15 @@ class MessageEvent<T> {
     this.lastEventId = id
     this.type = type
     this.data = data
+  }
+}
+
+// @ts-ignore
+globalThis.__ENABLE_EVENT_SOURCE_DEBUG = false
+function log(...args: any[]) {
+  // @ts-ignore
+  if (globalThis.__ENABLE_EVENT_SOURCE_DEBUG) {
+    console.info(...args)
   }
 }
 
