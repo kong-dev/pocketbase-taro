@@ -65,7 +65,9 @@ class TaroEventSource implements EventSource {
     const uint8Array = new Uint8Array(buffer)
     const data = Base64.decode(Base64.fromUint8Array(uint8Array))
     log('EventSource onChunkReceived', data)
-    this.dispatchEvent(this.parseEvent(data))
+    data.split('\n\n').forEach(chunk => {
+      this.dispatchEvent(this.parseEvent(chunk))
+    })
   }
 
   private parseEvent(msg: string): MessageEvent<any> {
